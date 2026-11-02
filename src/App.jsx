@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import AppLayout from './layouts/AppLayout';
+import DailyCheckIn from './components/sanctuary/DailyCheckIn';
 import BreathingWidget from './components/sanctuary/BreathingWidget';
 import BrainDump from './components/sanctuary/BrainDump';
 import GroundingDeck from './components/sanctuary/GroundingDeck';
 import SoundMixer from './components/sanctuary/SoundMixer';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('breathe');
+  const [currentView, setCurrentView] = useState('checkin');
 
   const renderView = () => {
     switch (currentView) {
+      case 'checkin':
+        return <DailyCheckIn />;
       case 'breathe':
         return <BreathingWidget />;
       case 'dumpp':
@@ -19,7 +22,7 @@ export default function App() {
       case 'sound':
         return <SoundMixer />;
       default:
-        return <BreathingWidget />;
+        return <DailyCheckIn />;
     }
   };
 
