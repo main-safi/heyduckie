@@ -8,15 +8,12 @@ export default {
           bg: "#0B0F17",         // Deep midnight atmosphere
           surface: "#141C2E",    // Soft elevated surface
           card: "#1E293B",       // Glass card background
-          border: "#334155",     // Subtle, non-glare borders
+          border: "#334155",     // Subtle non-glare borders
           sage: "#4ADE80",       // Gentle calming green (breathing)
           lavender: "#A78BFA",   // Relaxing muted purple
           textMain: "#F8FAFC",   // Soft white for readability
           textMuted: "#94A3B8",  // Low-intensity secondary text
         }
-      },
-      backdropBlur: {
-        xs: '4px',
       }
     },
   },
