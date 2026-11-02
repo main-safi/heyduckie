@@ -4,13 +4,11 @@ import { Flame, RefreshCw, ShieldCheck } from 'lucide-react';
 
 export default function BrainDump() {
   const [thought, setThought] = useState('');
-  const [status, setStatus] = useState('idle'); // 'idle' | 'shredding' | 'released'
+  const [status, setStatus] = useState('idle');
 
   const handleRelease = () => {
     if (!thought.trim()) return;
     setStatus('shredding');
-    
-    // Simulate shredding/dissolving transition duration
     setTimeout(() => {
       setStatus('released');
       setThought('');
@@ -23,14 +21,11 @@ export default function BrainDump() {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-6 w-full max-w-sm mx-auto">
-      
-      {/* Header */}
       <div className="text-center space-y-1">
         <h2 className="text-xl font-medium tracking-wide text-sanctuary-textMain">Brain Dump & Release</h2>
         <p className="text-xs text-sanctuary-textMuted">Let go of heavy thoughts. Pour them out and watch them dissolve.</p>
       </div>
 
-      {/* Main Card Area */}
       <Card className="w-full relative overflow-hidden">
         {status === 'released' ? (
           <div className="py-12 flex flex-col items-center justify-center text-center space-y-4 animate-pulse">
@@ -60,14 +55,11 @@ export default function BrainDump() {
               disabled={status === 'shredding'}
               className="w-full bg-sanctuary-bg/60 border border-sanctuary-border/60 rounded-xl p-4 text-sm text-sanctuary-textMain placeholder:text-sanctuary-textMuted/50 focus:outline-none focus:border-sanctuary-sage/50 resize-none transition-all"
             />
-
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-sanctuary-textMuted flex items-center gap-1">
                 <ShieldCheck size={12} className="text-sanctuary-sage" /> 100% Client-side privacy
               </span>
-              
               <button
-                key="dissolve-btn"
                 onClick={handleRelease}
                 disabled={!thought.trim() || status === 'shredding'}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 shadow-lg ${
@@ -82,7 +74,6 @@ export default function BrainDump() {
           </div>
         )}
       </Card>
-
     </div>
   );
 }
