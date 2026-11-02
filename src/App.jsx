@@ -6,7 +6,6 @@ import GroundingDeck from './components/sanctuary/GroundingDeck';
 import SoundMixer from './components/sanctuary/SoundMixer';
 
 export default function App() {
-  // Active view state: 'breathe' | 'dumpp' | 'ground' | 'sound'
   const [currentView, setCurrentView] = useState('breathe');
 
   const renderView = () => {
