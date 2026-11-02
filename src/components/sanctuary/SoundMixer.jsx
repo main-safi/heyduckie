@@ -7,10 +7,8 @@ export default function SoundMixer() {
   const [volume, setVolume] = useState(0.3);
   
   const audioCtxRef = useRef(null);
-  const nodeRef = useRef(null);
   const gainNodeRef = useRef(null);
 
-  // Initialize and handle Web Audio API Brown Noise generation
   useEffect(() => {
     if (!isPlaying) {
       if (audioCtxRef.current) {
@@ -30,7 +28,6 @@ export default function SoundMixer() {
         ctx.resume();
       }
 
-      // Create brown noise buffer (1 second buffer looped)
       const bufferSize = ctx.sampleRate * 2;
       const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -38,20 +35,18 @@ export default function SoundMixer() {
       let lastOut = 0.0;
       for (let i = 0; i < bufferSize; i++) {
         const white = Math.random() * 2 - 1;
-        // Brown noise formula: integration of white noise
         output[i] = (lastOut + (0.02 * white)) / 1.02;
         lastOut = output[i];
-        output[i] *= 3.5; // Gain adjustment for audible warmth
+        output[i] *= 3.5;
       }
 
       const whiteNoise = ctx.createBufferSource();
       whiteNoise.buffer = noiseBuffer;
       whiteNoise.loop = true;
 
-      // Lowpass filter to muffle harsh high frequencies into deep brown noise
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.value = 350; // Deep, warm rumble
+      filter.frequency.value = 350;
 
       const gainNode = ctx.createGain();
       gainNode.gain.value = volume;
@@ -61,46 +56,33 @@ export default function SoundMixer() {
       gainNode.connect(ctx.destination);
 
       whiteNoise.start(0);
-      nodeRef.current = whiteNoise;
       gainNodeRef.current = gainNode;
 
       return () => {
         try {
           whiteNoise.stop();
           whiteNoise.disconnect();
-        } catch (e) {
-          // Cleanup catch
-        }
+        } catch (e) {}
       };
     } catch (e) {
       console.error("Web Audio API error:", e);
     }
   }, [isPlaying]);
 
-  // Handle volume changes live
   useEffect(() => {
     if (gainNodeRef.current && audioCtxRef.current) {
       gainNodeRef.current.gain.setValueAtTime(volume, audioCtxRef.current.currentTime);
     }
   }, [volume]);
 
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   return (
     <div className="flex flex-col items-center justify-center space-y-6 w-full max-w-sm mx-auto">
-      
-      {/* Header */}
       <div className="text-center space-y-1">
         <h2 className="text-xl font-medium tracking-wide text-sanctuary-textMain">Ambient Soundscape</h2>
         <p className="text-xs text-sanctuary-textMuted">Calming brown noise generated directly in your browser.</p>
       </div>
 
-      {/* Main Card Container */}
       <Card className="w-full space-y-6">
-        
-        {/* Visualizer Icon Representation */}
         <div className="flex flex-col items-center justify-center py-6 space-y-3">
           <div className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-500 border ${
             isPlaying 
@@ -109,7 +91,6 @@ export default function SoundMixer() {
           }`}>
             <Waves size={36} strokeWidth={1.5} />
           </div>
-          
           <div className="text-center">
             <span className="text-sm font-medium text-sanctuary-textMain">Deep Brown Noise</span>
             <p className="text-[11px] text-sanctuary-textMuted mt-0.5">
@@ -118,7 +99,6 @@ export default function SoundMixer() {
           </div>
         </div>
 
-        {/* Volume Slider Control */}
         <div className="space-y-2 bg-sanctuary-bg/40 p-4 rounded-xl border border-sanctuary-border/40">
           <div className="flex justify-between items-center text-xs text-sanctuary-textMuted">
             <span className="flex items-center gap-1.5">
@@ -137,9 +117,8 @@ export default function SoundMixer() {
           />
         </div>
 
-        {/* Play / Pause Toggle Button */}
         <button
-          onClick={togglePlay}
+          onClick={() => setIsPlaying(!isPlaying)}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium text-xs transition-all duration-200 shadow-lg ${
             isPlaying 
               ? 'bg-sanctuary-surface border border-sanctuary-border text-sanctuary-textMain hover:bg-sanctuary-card' 
@@ -149,9 +128,7 @@ export default function SoundMixer() {
           {isPlaying ? <Pause size={16} /> : <Play size={16} />}
           {isPlaying ? 'Pause Soundscape' : 'Start Soundscape'}
         </button>
-
       </Card>
-
     </div>
   );
 }
