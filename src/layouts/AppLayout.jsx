@@ -12,11 +12,11 @@ export default function AppLayout({ currentView, setCurrentView, children }) {
   return (
     <div className="min-h-screen bg-sanctuary-bg text-sanctuary-textMain flex flex-col items-center justify-between font-sans selection:bg-sanctuary-sage/30">
       
-      {/* Top Header */}
+      {/* Header */}
       <header className="w-full max-w-md px-6 py-5 flex items-center justify-between border-b border-sanctuary-border/30">
         <h1 className="text-lg font-medium tracking-wide text-sanctuary-textMain flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-sanctuary-sage animate-pulse"></span>
-          Sanctuary
+          HeyDuckie
         </h1>
         <span className="text-xs text-sanctuary-textMuted tracking-wider uppercase">Beta v0.1</span>
       </header>
@@ -26,7 +26,7 @@ export default function AppLayout({ currentView, setCurrentView, children }) {
         {children}
       </main>
 
-      {/* Thumb-Friendly Bottom Navigation */}
+      {/* Navigation */}
       <nav className="w-full max-w-md px-4 py-3 bg-sanctuary-surface/80 backdrop-blur-lg border-t border-sanctuary-border/40 flex justify-around items-center sticky bottom-0 z-50">
         {navItems.map((item) => {
           const Icon = item.icon;
